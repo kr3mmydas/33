@@ -12,24 +12,24 @@ class MasterYoinker(): #το κύριο class για να αρχίζει το sc
         elif browser_input == 'Opera': self.currentBrowser = webdriver.Opera()
         elif browser_input == 'Safari': self.currentBrowser = webdriver.Safari()
         self.l1nk = l1nk # το link του site από nemertes που θέλουμε να ζουλέψουμε, για όποιον κάνει τη main
-    def yoinkbot(self, linksies):
-        soupalist = []
-        for i in range(2,22): #χύμα κώδικας που πρέπει να ενσωματωθεί στο class αργότερα, γι' αυτό συμφέρει να το βάλετε σε κανα notepad αν δεν υπάρχει vscode. Αποθηκεύει όλο το html των υποσελίδων με τις μεμονωμένες εργασίες.
-            pinakion = '//*[@id="content"]/div[3]/div/div[1]/table/tbody/tr[{}]/td[2]/strong/a'.format(i)
+    def yoinkbot(self, linksies,range_limiter): #Για την ώρα, αποθηκεύει όλο το html των υποσελίδων με τις μεμονωμένες εργασίες.
+        soupalist = [] #η λίστα με τις σούπες.
+        for i in range(2,range_limiter): 
+            pinakion = '//*[@id="content"]/div[3]/div/div[1]/table/tbody/tr[{}]/td[2]/strong/a'.format(i) #μεταβλητό xpath, κάντε το google search αν δεν ξέρετε τι είναι
             pinakas = self.currentBrowser.find_element(By.XPATH, pinakion) #το browser δεν έχει οριστεί, θα γίνει self.currentBrowser όταν μπει στο class, ΜΗΝ ΤΟ ΤΡΕΞΕΤΕ ΑΚΟΜΑ
             pinakas.send_keys(Keys.RETURN)
-            psontent = self.currentBrowser.page_source
-            soupa = BeautifulSoup(psontent)
-            soupalist.append(soupa.prettify)
+            psontent = self.currentBrowser.page_source #πασάρει στο beautifulsoup το source code της σελίδας.
+            soupa = BeautifulSoup(psontent) #ολόκληρος ο κώδικας της σελίδας, για να πάρουμε το text αργότερα. Ως τώρα δοκιμές με ολόκληρο.
+            soupalist.append(soupa.get_text())
             self.currentBrowser.get(linksies)
         return(soupalist)
-    def beginYoink(self): #μέχρι στιγμής δοκίμαζα πώς να αυτοματοποιήσουμε ως πού θα βουτάμε το html
+    def beginYoink(self): #ετοιμάζει τη λίστα με το κείμενο που θα στείλουμε στα sql bois
        self.currentBrowser.get(self.l1nk)
-       psopsontent = self.currentBrowser.page_source
+       psopsontent = self.currentBrowser.page_source #να μην τα ξαναπώ, πασάρει στο bs4 το source
        rangesoup = BeautifulSoup(psopsontent)
        rangetext = str(rangesoup.get_text())
-       rangelist = []
-       l0ine = tuple(rangetext.split('\n'))
+       rangelist = [] #αυτό το θέλουμε για να πάρουμε το νούμερο που θα οριοθετήσει την κλεψά
+       l0ine = tuple(rangetext.split('\n')) #γραμμές του text.
        for i in l0ine:
             if 'Φθίνουσα σειρά' in i and 'Descending order' not in i or 'Φθίνουσα σειρά' not in i and 'Descending order' in i:
                 i = i.split(' ')
@@ -40,21 +40,12 @@ class MasterYoinker(): #το κύριο class για να αρχίζει το sc
        masterlist = []
        for i in range(rangeOp + 1):#ΚΑΠΟΥ ΣΤΟ HTML ΒΓΑΖΕΙ ERROR, ΒΡΕΙΤΕ ΤΙ ΦΤΑΙΕΙ ΚΑΙ ΦΤΙΑΞΤΕ ΤΟ ΠΛΣ ΘΕΛΩ ΝΑ ΑΥΤ
            lynk = self.l1nk + '?offset={}'.format(20*(i))
-           masterlist.extend(self.yoinkbot(lynk))
+           if maxrange - 20*i >=20: powerRanger = 22 #Το powerRanger είναι στην ουσία ο αριθμός των στοιχείων που πρέπει να βουτήξουμε, το έκανα έτσι γιατί κουράστηκα να φτιάχνω σούπες,
+           else: powerRanger = maxrange - 20*i +2
+           masterlist.extend(self.yoinkbot(lynk, powerRanger))
        return masterlist
            
 
-print(MasterYoinker('Chrome','https://nemertes.library.upatras.gr/jspui/handle/10889/65').beginYoink()) #έμεινε από το test, αν λυθεί το πρόβλημα του range πρέπει να πάει στο διάολο
-
-
-        
-    
-
-
-
-
-   
-    
-
-
-
+with open('textlist.txt', 'w', encoding='utf-8') as f:
+    f.write(str(MasterYoinker('Chrome','https://nemertes.library.upatras.gr/jspui/handle/10889/65').beginYoink()))
+    f.close()
