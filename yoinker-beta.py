@@ -13,18 +13,19 @@ class MasterYoinker(): #το κύριο class για να αρχίζει το sc
         elif browser_input == 'Safari': self.currentBrowser = webdriver.Safari()
         self.l1nk = l1nk # το link του site από nemertes που θέλουμε να ζουλέψουμε, για όποιον κάνει τη main
     def yoinkbot(self, linksies,range_limiter): #Για την ώρα, αποθηκεύει όλο το html των υποσελίδων με τις μεμονωμένες εργασίες.
-        soupalist = [] #η λίστα με τις σούπες.
+        textlist = []
         for i in range(2,range_limiter): 
             pinakion = '//*[@id="content"]/div[3]/div/div[1]/table/tbody/tr[{}]/td[2]/strong/a'.format(i) #μεταβλητό xpath, κάντε το google search αν δεν ξέρετε τι είναι
             pinakas = self.currentBrowser.find_element(By.XPATH, pinakion) #το browser δεν έχει οριστεί, θα γίνει self.currentBrowser όταν μπει στο class, ΜΗΝ ΤΟ ΤΡΕΞΕΤΕ ΑΚΟΜΑ
             pinakas.send_keys(Keys.RETURN)
-            psontent = self.currentBrowser.page_source #πασάρει στο beautifulsoup το source code της σελίδας.
-            soupa = BeautifulSoup(psontent) #ολόκληρος ο κώδικας της σελίδας, για να πάρουμε το text αργότερα. Ως τώρα δοκιμές με ολόκληρο.
-            soupalist.append(soupa.get_text())
+            for i in range(1,8):
+                mpinakas = '//*[@id="content"]/div[3]/table/tbody/tr[{}]/td[2]'.format(i) #ξανά, μεταβλητό XPATH
+                textlist.append(self.currentBrowser.find_element(By.XPATH, mpinakas).text)#εδώ βάζουμε στη λίστα textlist το κείμενο που παίρνουμε από το element το οποίο εντοπίσαμε με το μεταβλητό XPATH
             self.currentBrowser.get(linksies)
-        return(soupalist)
+        return(textlist)
     def beginYoink(self): #ετοιμάζει τη λίστα με το κείμενο που θα στείλουμε στα sql bois
        self.currentBrowser.get(self.l1nk)
+       self.currentBrowser.minimize_window()
        psopsontent = self.currentBrowser.page_source #να μην τα ξαναπώ, πασάρει στο bs4 το source
        rangesoup = BeautifulSoup(psopsontent)
        rangetext = str(rangesoup.get_text())
@@ -44,8 +45,3 @@ class MasterYoinker(): #το κύριο class για να αρχίζει το sc
            else: powerRanger = maxrange - 20*i +2
            masterlist.extend(self.yoinkbot(lynk, powerRanger))
        return masterlist
-           
-
-with open('textlist.txt', 'w', encoding='utf-8') as f:
-    f.write(str(MasterYoinker('Chrome','https://nemertes.library.upatras.gr/jspui/handle/10889/65').beginYoink()))
-    f.close()
