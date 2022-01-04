@@ -21,6 +21,7 @@ class MasterYoinker(): #το κύριο class για να αρχίζει το sc
             for i in range(1,8):
                 mpinakas = '//*[@id="content"]/div[3]/table/tbody/tr[{}]/td[2]'.format(i) #ξανά, μεταβλητό XPATH
                 textlist.append(self.currentBrowser.find_element(By.XPATH, mpinakas).text)#εδώ βάζουμε στη λίστα textlist το κείμενο που παίρνουμε από το element το οποίο εντοπίσαμε με το μεταβλητό XPATH
+            textlist.append(self.currentBrowser.find_element(By.XPATH,'//*[@id="content"]/div[3]/div[2]/table/tbody/tr[2]/td[1]/a').get_attribute('href'))
             self.currentBrowser.get(linksies)
         return(textlist)
     def beginYoink(self): #ετοιμάζει τη λίστα με το κείμενο που θα στείλουμε στα sql bois
