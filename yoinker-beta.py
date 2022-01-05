@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 from selenium import webdriver
+import selenium.common.exceptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 class MasterYoinker(): #το κύριο class για να αρχίζει το scraping
