@@ -25,6 +25,7 @@ class MasterYoinker(): #το κύριο class για να αρχίζει το sc
                     textlist.append(self.currentBrowser.find_element(By.XPATH, mpinakas).text)#εδώ βάζουμε στη λίστα textlist το κείμενο που παίρνουμε από το element το οποίο εντοπίσαμε με το μεταβλητό XPATH
                 except selenium.common.exceptions.NoSuchElementException:
                     textlist.append('Δε βρέθηκε τέτοιο στοιχείο')
+                textlist.append(self.currentBrowser.find_element(By.XPATH,'//*[@id="content"]/div[3]/div[2]/table/tbody/tr[2]/td[1]/a').get_attribute('href'))
             self.currentBrowser.get(linksies)
         for item in textlist:
             if 'Τμήμα' and '(ΜΔΕ)' in item: textlist.remove(item)
