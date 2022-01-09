@@ -124,21 +124,28 @@ def suma():
 
 
     def gif():
-        top1 = tk.Toplevel()
-        top1.title("loading...")
-        top1.iconbitmap("C:\Program Files (x86)\icon.ico")
-        gif1 = Gif(top1)
-        top1.mainloop()
+        if  clicked.get()== "Chrome" or clicked.get()=="Mozilla" or clicked.get()=="Opera" or clicked.get()=="Edge" or clicked.get()=="Safari" :
+            top1 = tk.Toplevel()
+            top1.title("loading...")
+            top1.iconbitmap("C:\Program Files (x86)\icon.ico")
+            gif1 = Gif(top1)
+            top1.mainloop()
 
     
         
 
     def Button1():
+
         if clicked.get() == "Chrome" :
+            sta=time.time()
             with open('textlist.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Chrome',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/6553').beginYoink()))
+            
                 f.close()
+            sto=time.time()
+            div=sto-sta
+            gif.after(div,top1.destroy())
         if clicked.get() == "Edge" :
                 with open('textlist.txt', 'w', encoding='utf-8') as f:
                     f.write(str(MasterYoinker('Edge',
