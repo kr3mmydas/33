@@ -415,17 +415,17 @@ def w3():
         i2=IntVar()
         i3=IntVar()
         i4=IntVar()
-        # i5=IntVar()
-        # i6=IntVar()
-        # i7=IntVar()
+        i5=IntVar()
+        #i6=IntVar()
+        #i7=IntVar()
 
         # checkbuttons
 
         check1 = tk.Checkbutton(rain,text="Τίτλος",font=('',13),variable=i1,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
         check2 = tk.Checkbutton(rain,text="Θέμα",font=('',13),variable=i2,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
         check3 = tk.Checkbutton(rain,text="Συγγραφέας",font=('',13),variable=i3,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
-        check4 = tk.Checkbutton(rain,text="Ημερομηνία Δημοσίευσης",font=('',13),variable=i4,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
-        #check5 = tk.Checkbutton(master,text="Τμήμα Πολιτικών Μηχανικών",font=('',13),variable=i5,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
+        check4 = tk.Checkbutton(rain,text="λέξεις κλειδιά",font=('',13),variable=i4,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
+        check5 = tk.Checkbutton(rain,text="περίληψη",font=('',13),variable=i5,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
         # check6 = tk.Checkbutton(master,text="Τμήμα Χημικών Μηχανικών",font=('',13),variable=i6,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
         # check7 = tk.Checkbutton(master,text="Τμήμα Μηχανολόγων και Αεροναυπηγών Μηχανικών",font=('',13),variable=i7,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
         
@@ -434,7 +434,7 @@ def w3():
 
 
         #def pupop():
-         #   if  i1.get()== 0 and i2.get()== 0 and i3.get()== 0 and i4.get()== 0 :
+         #   if  i1.get()== 0 and i2.get()== 0 and i3.get()== 0 and i4.get()== 0 and i5.get()== 0 :
           #      response=messagebox.showwarning("messagebox","Παρακαλώ επιλέξτε φίλτρα")
            # else:
             #    b1.config(command=listokouti)
