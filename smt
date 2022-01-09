@@ -164,27 +164,27 @@ def suma():
 
     def Button3():
         if clicked.get() == "Chrome" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist1.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Chrome',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/65').beginYoink()))
                 f.close()
         if clicked.get() == "Edge" :
-                with open('textlist.txt', 'w', encoding='utf-8') as f:
+                with open('textlist1.txt', 'w', encoding='utf-8') as f:
                     f.write(str(MasterYoinker('Edge',
                                             'https://nemertes.library.upatras.gr/jspui/handle/10889/65').beginYoink()))
                     f.close()
         if clicked.get() == "Safari" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist1.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Safari',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/65').beginYoink()))
                 f.close()
         if clicked.get() == "Opera" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist1.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Opera',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/65').beginYoink()))
                 f.close()
         if clicked.get() == "Mozilla" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist1.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Mozilla',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/65').beginYoink()))
                 f.close()
@@ -192,27 +192,27 @@ def suma():
 
     def Button6():
         if clicked.get() == "Chrome" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist2.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Chrome',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/75').beginYoink()))
                 f.close()
         if clicked.get() == "Edge" :
-                with open('textlist.txt', 'w', encoding='utf-8') as f:
+                with open('textlist2.txt', 'w', encoding='utf-8') as f:
                     f.write(str(MasterYoinker('Edge',
                                             'https://nemertes.library.upatras.gr/jspui/handle/10889/75').beginYoink()))
                     f.close()
         if clicked.get() == "Safari" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist2.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Safari',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/75').beginYoink()))
                 f.close()
         if clicked.get() == "Opera" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist2.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Opera',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/75').beginYoink()))
                 f.close()
         if clicked.get() == "Mozilla" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist2.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Mozilla',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/75').beginYoink()))
                 f.close()
@@ -221,27 +221,27 @@ def suma():
 
     def Button4():
         if clicked.get() == "Chrome" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist3.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Chrome',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/68').beginYoink()))
                 f.close()
         if clicked.get() == "Edge" :
-                with open('textlist.txt', 'w', encoding='utf-8') as f:
+                with open('textlist3.txt', 'w', encoding='utf-8') as f:
                     f.write(str(MasterYoinker('Edge',
                                             'https://nemertes.library.upatras.gr/jspui/handle/10889/68').beginYoink()))
                     f.close()
         if clicked.get() == "Safari" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist3.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Safari',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/68').beginYoink()))
                 f.close()
         if clicked.get() == "Opera" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist3.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Opera',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/68').beginYoink()))
                 f.close()
         if clicked.get() == "Mozilla" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist3.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Mozilla',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/68').beginYoink()))
                 f.close()
@@ -250,27 +250,27 @@ def suma():
 
     def Button5():
         if clicked.get() == "Chrome" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist4.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Chrome',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/69').beginYoink()))
                 f.close()
         if clicked.get() == "Edge" :
-                with open('textlist.txt', 'w', encoding='utf-8') as f:
+                with open('textlist4.txt', 'w', encoding='utf-8') as f:
                     f.write(str(MasterYoinker('Edge',
                                             'https://nemertes.library.upatras.gr/jspui/handle/10889/69').beginYoink()))
                     f.close()
         if clicked.get() == "Safari" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist4.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Safari',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/69').beginYoink()))
                 f.close()
         if clicked.get() == "Opera" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist4.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Opera',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/69').beginYoink()))
                 f.close()
         if clicked.get() == "Mozilla" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist4.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Mozilla',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/69').beginYoink()))
                 f.close()
@@ -280,27 +280,27 @@ def suma():
 
     def Button7():
         if clicked.get() == "Chrome" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist5.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Chrome',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/71').beginYoink()))
                 f.close()
         if clicked.get() == "Edge" :
-                with open('textlist.txt', 'w', encoding='utf-8') as f:
+                with open('textlist5.txt', 'w', encoding='utf-8') as f:
                     f.write(str(MasterYoinker('Edge',
                                             'https://nemertes.library.upatras.gr/jspui/handle/10889/71').beginYoink()))
                     f.close()
         if clicked.get() == "Safari" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist5.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Safari',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/71').beginYoink()))
                 f.close()
         if clicked.get() == "Opera" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist5.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Opera',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/71').beginYoink()))
                 f.close()
         if clicked.get() == "Mozilla" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist5.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Mozilla',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/71').beginYoink()))
                 f.close()
@@ -310,27 +310,27 @@ def suma():
 
     def Button2():
         if clicked.get() == "Chrome" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist6.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Chrome',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/59').beginYoink()))
                 f.close()
         if clicked.get() == "Edge" :
-                with open('textlist.txt', 'w', encoding='utf-8') as f:
+                with open('textlist6.txt', 'w', encoding='utf-8') as f:
                     f.write(str(MasterYoinker('Edge',
                                             'https://nemertes.library.upatras.gr/jspui/handle/10889/59').beginYoink()))
                     f.close()
         if clicked.get() == "Safari" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist6.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Safari',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/59').beginYoink()))
                 f.close()
         if clicked.get() == "Opera" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist6.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Opera',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/59').beginYoink()))
                 f.close()
         if clicked.get() == "Mozilla" :
-            with open('textlist.txt', 'w', encoding='utf-8') as f:
+            with open('textlist6.txt', 'w', encoding='utf-8') as f:
                 f.write(str(MasterYoinker('Mozilla',
                                         'https://nemertes.library.upatras.gr/jspui/handle/10889/59').beginYoink()))
                 f.close()
