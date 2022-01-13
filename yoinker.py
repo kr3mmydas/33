@@ -58,6 +58,6 @@ class MasterYoinker(): #το κύριο class για να αρχίζει το sc
            lynk = self.l1nk + '?offset={}'.format(20*(i))
            if maxrange - 20*i >=20: powerRanger = 22 #Το powerRanger είναι στην ουσία ο αριθμός των στοιχείων που πρέπει να βουτήξουμε, το έκανα έτσι γιατί κουράστηκα να φτιάχνω σούπες,
            else: powerRanger = maxrange - 20*i +2
-           masterlist.append(self.yoinkbot(lynk, powerRanger))
+           masterlist.extend(self.yoinkbot(lynk, powerRanger))
        return masterlist
     
