@@ -8,8 +8,7 @@ import threading
 import yoinker
 import datasaver
 import time
-selected_ergasia = ''
-sneakstring = ''
+
 def suma():
 
 
@@ -150,7 +149,7 @@ def listokouti(sxolh):
     # money.config(bg="#000000")
     frame=tk.Frame(money)
     scrollarw1=ttk.Scrollbar(frame,orient=VERTICAL)
-    global selected_ergasia,sneakstring
+    
 
 
     my_listbox= tk.Listbox(frame,yscrollcommand=scrollarw1.set,height=15, width=175, selectmode=SINGLE)
@@ -160,7 +159,7 @@ def listokouti(sxolh):
     scrollarw2=ttk.Scrollbar(frame,orient=HORIZONTAL)
     scrollarw2.config(command=my_listbox.xview)
     scrollarw2.pack(side=BOTTOM,fill= X)
-    labeleiros = tk.Label(money, text=sneakstring,font=("Arial",15)).pack(expand=1)
+    
 
     frame.pack()
     
@@ -168,19 +167,9 @@ def listokouti(sxolh):
     my_listbox.pack(pady=20)
     # to item einai akyro to evala mono gia na leitoyrgei to scrollbar
     for pleiada in ddd:
-        my_listbox.insert(END,pleiada[0])
+        my_listbox.insert(END,pleiada[0]+','+pleiada[8])
     butt =tk.Button(money,text="< Υποβολή >",command=ergasia).pack()
-    def selected_items(event):
-        global selected_ergasia
-        # get selected indices
-        selected_indice = my_listbox.curselection()
-        # get selected items
-        selected_ergasia = my_listbox.get(selected_indice)
-    my_listbox.bind('<<ListboxSelect>>',selected_items)
-    checker = datasaver.Datasaver().picker(sxolh, selected_ergasia)
-    sneakstring = checker
-    
-    
+     
     money.mainloop()
 
 def ergasia():
