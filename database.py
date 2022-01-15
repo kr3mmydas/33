@@ -76,9 +76,11 @@ class Datasaver():
                 except sqlite3.IntegrityError : pass
                 self.c.execute('''INSERT INTO ergsxolh VALUES(?,?,?);''',(sxolh[0],titlos,elpis_xorterou_syndesmos))
     def selector(self,onomasxolhs):
-        self.sqlselector = ''' SELECT title, linksey FROM ergsxolh WHERE sxolhname={};'''
-        if onomasxolhs == 'Αρχιτεκτόνων Μηχανικών':
-            self.sqlselector = self.c.execute(self.sqlselector.format('Αρχιτεκτόνων Μηχανικών'))
+        self.sxolh = onomasxolhs
+        if self.sxolh =='Αρχιτεκτόνων Μηχανικών':
+            list = self.c.execute(''' SELECT sxolhname, title, linksey FROM ergsxolh WHERE sxolhname = 'Αρχιτεκτόνων Μηχανικών' ;''')
+            for l in list:
+                print(l)
 
 
 
