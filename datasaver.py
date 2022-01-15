@@ -76,20 +76,19 @@ class Datasaver():
                 except sqlite3.IntegrityError : pass
                 self.c.execute('''INSERT INTO ergsxolh VALUES(?,?,?);''',(sxolh[0],titlos,elpis_xorterou_syndesmos))
     def selector(self,onomasxolhs):
-        self.sxolh = onomasxolhs
-        if self.sxolh =='Αρχιτεκτόνων Μηχανικών':
-            list = self.c.execute(''' SELECT sxolhname, title, linksey FROM ergsxolh WHERE sxolhname = 'Αρχιτεκτόνων Μηχανικών' ;''')
-            for l in list:
-                print(l)
-
-
-
-
-
-        
-
-        
-
-
-Datasaver().initiate_save()
-Datasaver().selector('Αρχιτεκτόνων Μηχανικών')
+        sxolh = str(onomasxolhs)
+        lyst = self.c.execute(''' SELECT ergsxolh.sxolhname, 
+        ergasies.title, 
+        ergasies.engtitle, 
+        ergasies.authors, 
+        ergasies.kwds, 
+        ergasies.engkwds, 
+        ergasies.abstracc, 
+        ergasies.engabstracc, 
+        ergasies.linksey 
+        FROM ergsxolh, ergasies 
+        WHERE ergsxolh.sxolhname = '{}' AND ergasies.title = ergsxolh.title ;'''.format(sxolh))
+        lyst = list(lyst)
+        for l in lyst:
+            if lyst.count(l) > 1: lyst.remove(l)
+        return(lyst)
