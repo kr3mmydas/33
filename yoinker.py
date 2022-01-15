@@ -16,26 +16,34 @@ class MasterYoinker(): #το κύριο class για να αρχίζει το sc
         for i in range(2,range_limiter):
             sneakystring = ''
             pinakion = '//*[@id="content"]/div[3]/div/div[1]/table/tbody/tr[{}]/td[2]/strong/a'.format(i) #μεταβλητό xpath, κάντε το google search αν δεν ξέρετε τι είναι
-            pinakas = self.currentBrowser.find_element(By.XPATH, pinakion) #το browser δεν έχει οριστεί, θα γίνει self.currentBrowser όταν μπει στο class, ΜΗΝ ΤΟ ΤΡΕΞΕΤΕ ΑΚΟΜΑ
-            pinakas.send_keys(Keys.RETURN)
-            for i in range(1,8):
-                mplhrofories = '//*[@id="content"]/div[3]/table/tbody/tr[{}]/td[1]'.format(i)
-                mpinakas = '//*[@id="content"]/div[3]/table/tbody/tr[{}]/td[2]'.format(i) #ξανά, μεταβλητό XPATH
+            try:
+                pinakas = self.currentBrowser.find_element(By.XPATH, pinakion) #το browser δεν έχει οριστεί, θα γίνει self.currentBrowser όταν μπει στο class, ΜΗΝ ΤΟ ΤΡΕΞΕΤΕ ΑΚΟΜΑ
+                pinakas.send_keys(Keys.RETURN)
+                for i in range(1,9):
+                    mplhrofories = '//*[@id="content"]/div[3]/table/tbody/tr[{}]/td[1]'.format(i)
+                    mpinakas = '//*[@id="content"]/div[3]/table/tbody/tr[{}]/td[2]'.format(i) #ξανά, μεταβλητό XPATH
+                    try:
+                    
+                        infokeimeno = self.currentBrowser.find_element(By.XPATH, mplhrofories).text
+                        if 'Title:' in infokeimeno:infokeimeno = infokeimeno.replace('Title:', 'Τίτλος:')
+                        elif 'Other Titles:' in infokeimeno:infokeimeno = infokeimeno.replace('Other Titles:', 'Τίτλος (Μετάφραση):')
+                        elif 'Authors:' in infokeimeno:infokeimeno = infokeimeno.replace('Authors:', 'Συγγραφέας:')
+                        elif 'Keywords:' in infokeimeno:infokeimeno = infokeimeno.replace('Keywords:', 'Λέξεις Κλειδιά:')
+                        elif 'Keywords (translated):' in infokeimeno:infokeimeno = infokeimeno.replace('Keywords (translated):', 'Λέξεις Κλειδιά (Μετάφραση):')
+                        elif 'Abstract:' in infokeimeno:infokeimeno = infokeimeno.replace('Abstract:', 'Περίληψη:')
+                        elif 'Issue Date:' in infokeimeno:infokeimeno = infokeimeno.replace('Issue Date:', 'Ημερομηνία δημοσίευσης:')
+                        elif 'Abstract (translated):' in infokeimeno:infokeimeno = infokeimeno.replace('Abstract (translated):', 'Περίληψη (Μετάφραση) :')   
+                        if 'Τμήμα' and '(ΜΔΕ)' not in self.currentBrowser.find_element(By.XPATH, mpinakas).text: sneakystring += (infokeimeno + '///' + self.currentBrowser.find_element(By.XPATH, mpinakas).text + '\t')#εδώ βάζουμε στη λίστα textlist το κείμενο που παίρνουμε από το element το οποίο εντοπίσαμε με το μεταβλητό XPATH
+                        else: sneakystring += 'Δε βρέθηκε άλλο στοιχείο\t'
+                    except selenium.common.exceptions.NoSuchElementException:
+                        sneakystring += 'Δε βρέθηκε τέτοιο στοιχείο\t'
                 try:
-                    infokeimeno = self.currentBrowser.find_element(By.XPATH, mplhrofories).text
-                    if 'Title:' in infokeimeno:infokeimeno = infokeimeno.replace('Title:', 'Τίτλος:')
-                    elif 'Other Titles:' in infokeimeno:infokeimeno = infokeimeno.replace('Other Titles:', 'Τίτλος (Μετάφραση):')
-                    elif 'Authors:' in infokeimeno:infokeimeno = infokeimeno.replace('Authors:', 'Συγγραφέας:')
-                    elif 'Keywords:' in infokeimeno:infokeimeno = infokeimeno.replace('Keywords:', 'Λέξεις Κλειδιά:')
-                    elif 'Keywords (translated):' in infokeimeno:infokeimeno = infokeimeno.replace('Keywords (translated):', 'Λέξεις Κλειδιά (Μετάφραση):')
-                    elif 'Abstract:' in infokeimeno:infokeimeno = infokeimeno.replace('Abstract:', 'Περίληψη:')
-                    elif 'Abstract (translated):' in infokeimeno:infokeimeno = infokeimeno.replace('Abstract (translated):', 'Περίληψη (Μετάφραση) :')   
-                    if 'Τμήμα' and '(ΜΔΕ)' not in self.currentBrowser.find_element(By.XPATH, mpinakas).text: sneakystring += (infokeimeno + '///' + self.currentBrowser.find_element(By.XPATH, mpinakas).text + '\t')#εδώ βάζουμε στη λίστα textlist το κείμενο που παίρνουμε από το element το οποίο εντοπίσαμε με το μεταβλητό XPATH
-                    else: sneakystring += 'Δε βρέθηκε άλλο στοιχείο\t'
+                    sneakystring += ('Σύνδεσμος εργασίας:///' + self.currentBrowser.find_element(By.XPATH,'//*[@id="content"]/div[3]/div[2]/table/tbody/tr[2]/td[1]/a').get_attribute('href'))
+                    self.currentBrowser.get(linksies)
                 except selenium.common.exceptions.NoSuchElementException:
-                    sneakystring += 'Δε βρέθηκε τέτοιο στοιχείο\t'
-            sneakystring += ('Σύνδεσμος εργασίας:///' + self.currentBrowser.find_element(By.XPATH,'//*[@id="content"]/div[3]/div[2]/table/tbody/tr[2]/td[1]/a').get_attribute('href'))
-            self.currentBrowser.get(linksies)
+                    sneakystring += 'Ο σύνδεσμος δε μπορεί να ανακτηθεί'
+                    self.currentBrowser.get(linksies)
+            except selenium.common.exceptions.NoSuchElementException: pass
             textlist.append(sneakystring)
         return(textlist)
     def beginYoink(self): #ετοιμάζει τη λίστα με το κείμενο που θα στείλουμε στα sql bois
@@ -60,4 +68,3 @@ class MasterYoinker(): #το κύριο class για να αρχίζει το sc
            else: powerRanger = maxrange - 20*i +2
            masterlist.extend(self.yoinkbot(lynk, powerRanger))
        return masterlist
-    
