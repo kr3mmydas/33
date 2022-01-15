@@ -167,7 +167,7 @@ def listokouti(sxolh):
     my_listbox.pack(pady=20)
     # to item einai akyro to evala mono gia na leitoyrgei to scrollbar
     for pleiada in ddd:
-        my_listbox.insert(END,pleiada[0]+','+pleiada[8])
+        my_listbox.insert(END,pleiada[0]+','+pleiada[7])
     butt =tk.Button(money,text="< Υποβολή >",command=ergasia).pack()
      
     money.mainloop()
