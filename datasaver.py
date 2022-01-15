@@ -33,7 +33,7 @@ class Datasaver():
 );
 '''
        
-        self.sxoles = (('Αρχιτεκτόνων Μηχανικών','https://nemertes.library.upatras.gr/jspui/handle/10889/59'),('Μηχανικών Περιβάλλοντος','https://nemertes.library.upatras.gr/jspui/handle/10889/6553'))
+        self.sxoles = (('Αρχιτεκτόνων Μηχανικών','https://nemertes.library.upatras.gr/jspui/handle/10889/59'),('Μηχανικών Περιβάλλοντος','https://nemertes.library.upatras.gr/jspui/handle/10889/6553'),('Χημικών Μηχανικών','https://nemertes.library.upatras.gr/jspui/handle/10889/75'),('Ηλεκτρολόγων Μηχανικών και Τεχνολογίας Υπολογιστών','https://nemertes.library.upatras.gr/jspui/handle/10889/65'),('Πολιτικών Μηχανικών','https://nemertes.library.upatras.gr/jspui/handle/10889/71'),('Μηχανολόγων και Αεροναυπηγών Μηχανικών','https://nemertes.library.upatras.gr/jspui/handle/10889/69'),('Μηχανικών Ηλεκτρονικών Υπολογιστών και Πληροφορικής','https://nemertes.library.upatras.gr/jspui/handle/10889/68'))
         self.sqlremover = ''' DELETE FROM ergasies WHERE linksey=NULL;'''
     def initiate_save(self):
         self.c.execute(self.sqlmaker_ergasies)
