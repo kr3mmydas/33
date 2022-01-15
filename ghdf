@@ -1,0 +1,519 @@
+import sqlite3
+import tkinter as tk
+from PIL import ImageTk, Image, ImageSequence
+from tkinter import *
+from tkinter import messagebox,ttk
+import threading
+import requests
+from bs4 import BeautifulSoup
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import selenium.common.exceptions
+
+sxolh0 = ('Αρχιτεκτόνων Μηχανικών','https://nemertes.library.upatras.gr/jspui/handle/10889/59')
+sxolh1=('Μηχανικοί Περιβάλλοντος','https://nemertes.library.upatras.gr/jspui/handle/10889/6553')
+sxolh2=("Χημικών Μηχανικών","https://nemertes.library.upatras.gr/jspui/handle/10889/75")
+sxolh3=('Ηλεκτρολόγοι Μηχανικοί και Τεχνολογίας Υπολογιστών',"https://nemertes.library.upatras.gr/jspui/handle/10889/65")
+sxolh4=('Πολιτικοί Μηχανικοί',"https://nemertes.library.upatras.gr/jspui/handle/10889/71")
+sxolh5=("Μηχανολόγων και Αεροναυπηγών Μηχανικών","https://nemertes.library.upatras.gr/jspui/handle/10889/69")
+sxolh6=("Μηχανικοί Ηλεκτρονικών Υπολογιστών και Πληροφορικής","https://nemertes.library.upatras.gr/jspui/handle/10889/68")
+
+def suma():
+    root = tk.Tk()
+    #root.config(bg='#000000')
+    root.iconbitmap('C:\Program Files (x86)\icon.ico')
+    root.title("team33")
+
+    options = ["Chrome", "Mozilla", "Opera", "Edge", "Safari"]
+
+    clicked = StringVar()
+    clicked.set("   browsers  ")# auto den typwnetai
+    drop = OptionMenu(root, clicked, *options)
+    brr = tk.Label(root,text="Επιλέξτε Browser",font=("",15)).pack(anchor='n',expand=1)#fg="#FFFFFF",bg="#000000"
+    #imAgin = tk.PhotoImage(file="C:\Program Files (x86)\lrower-logos.png") #error den vriskei eikona
+    #lAbel = tk.Label(root,image=imAgin).pack()
+    drop.pack(expand=1)
+
+    def messagi():
+        if  clicked.get()!= "Chrome" and clicked.get()!="Mozilla" and clicked.get()!="Opera" and clicked.get()!="Edge" and clicked.get()!="Safari" :
+            response=messagebox.showwarning("team.33","Παρακαλώ επιλέξτε browser!\n\t✧٩(•́⌄•́๑)و ✧")
+    
+    def gif():    
+            if  clicked.get()== "Chrome" or clicked.get()=="Mozilla" or clicked.get()=="Opera" or clicked.get()=="Edge" or clicked.get()=="Safari" :
+                # root window
+                root = tk.Tk()
+                root.iconbitmap('C:\Program Files (x86)\icon.ico')
+                root.title('team.33')
+                root.grid()
+                # progressbar
+                em=tk.Label(root,text="Παρακαλώ περιμένετε η βάση ενημερώνεται...",font=("",12,"bold")).grid(column=0, row=0)
+                pb = ttk.Progressbar(root,orient='horizontal',mode='indeterminate',length=280)
+                # place the progressbar
+                pb.grid(column=0, row=1, columnspan=2, padx=10, pady=20)
+                pb.start()
+                root.mainloop()
+        
+    class MasterYoinker(): #το κύριο class για να αρχίζει το scraping
+        def __init__(self, browser_input, l1nk, currentBrowser = '' ):
+            if browser_input == 'Chrome': self.currentBrowser = webdriver.Chrome() #από δω και κάτω ετοιμάζουμε browsers που υποστηρίζονται
+            elif browser_input == 'Firefox': self.currentBrowser = webdriver.Firefox()
+            elif browser_input == 'Edge': self.currentBrowser = webdriver.Edge()
+            elif browser_input == 'Opera': self.currentBrowser = webdriver.Opera()
+            elif browser_input == 'Safari': self.currentBrowser = webdriver.Safari()
+            self.l1nk = l1nk # το link του site από nemertes που θέλουμε να ζουλέψουμε, για όποιον κάνει τη main
+        def yoinkbot(self, linksies,range_limiter): #Για την ώρα, αποθηκεύει όλο το html των υποσελίδων με τις μεμονωμένες εργασίες.
+            textlist = []
+            for i in range(2,range_limiter):
+                sneakystring = ''
+                pinakion = '//*[@id="content"]/div[3]/div/div[1]/table/tbody/tr[{}]/td[2]/strong/a'.format(i) #μεταβλητό xpath, κάντε το google search αν δεν ξέρετε τι είναι
+                try:
+                    pinakas = self.currentBrowser.find_element(By.XPATH, pinakion) #το browser δεν έχει οριστεί, θα γίνει self.currentBrowser όταν μπει στο class, ΜΗΝ ΤΟ ΤΡΕΞΕΤΕ ΑΚΟΜΑ
+                    pinakas.send_keys(Keys.RETURN)
+                    for i in range(1,9):
+                        mplhrofories = '//*[@id="content"]/div[3]/table/tbody/tr[{}]/td[1]'.format(i)
+                        mpinakas = '//*[@id="content"]/div[3]/table/tbody/tr[{}]/td[2]'.format(i) #ξανά, μεταβλητό XPATH
+                        try:
+                        
+                            infokeimeno = self.currentBrowser.find_element(By.XPATH, mplhrofories).text
+                            if 'Title:' in infokeimeno:infokeimeno = infokeimeno.replace('Title:', 'Τίτλος:')
+                            elif 'Other Titles:' in infokeimeno:infokeimeno = infokeimeno.replace('Other Titles:', 'Τίτλος (Μετάφραση):')
+                            elif 'Authors:' in infokeimeno:infokeimeno = infokeimeno.replace('Authors:', 'Συγγραφέας:')
+                            elif 'Keywords:' in infokeimeno:infokeimeno = infokeimeno.replace('Keywords:', 'Λέξεις Κλειδιά:')
+                            elif 'Keywords (translated):' in infokeimeno:infokeimeno = infokeimeno.replace('Keywords (translated):', 'Λέξεις Κλειδιά (Μετάφραση):')
+                            elif 'Abstract:' in infokeimeno:infokeimeno = infokeimeno.replace('Abstract:', 'Περίληψη:')
+                            elif 'Issue Date:' in infokeimeno:infokeimeno = infokeimeno.replace('Issue Date:', 'Ημερομηνία δημοσίευσης:')
+                            elif 'Abstract (translated):' in infokeimeno:infokeimeno = infokeimeno.replace('Abstract (translated):', 'Περίληψη (Μετάφραση) :')   
+                            if 'Τμήμα' and '(ΜΔΕ)' not in self.currentBrowser.find_element(By.XPATH, mpinakas).text: sneakystring += (infokeimeno + '///' + self.currentBrowser.find_element(By.XPATH, mpinakas).text + '\t')#εδώ βάζουμε στη λίστα textlist το κείμενο που παίρνουμε από το element το οποίο εντοπίσαμε με το μεταβλητό XPATH
+                            else: sneakystring += 'Δε βρέθηκε άλλο στοιχείο\t'
+                        except selenium.common.exceptions.NoSuchElementException:
+                            sneakystring += 'Δε βρέθηκε τέτοιο στοιχείο\t'
+                    try:
+                        sneakystring += ('Σύνδεσμος εργασίας:///' + self.currentBrowser.find_element(By.XPATH,'//*[@id="content"]/div[3]/div[2]/table/tbody/tr[2]/td[1]/a').get_attribute('href'))
+                        self.currentBrowser.get(linksies)
+                    except selenium.common.exceptions.NoSuchElementException:
+                        sneakystring += 'Ο σύνδεσμος δε μπορεί να ανακτηθεί'
+                        self.currentBrowser.get(linksies)
+                except selenium.common.exceptions.NoSuchElementException: pass
+                textlist.append(sneakystring)
+            return(textlist)
+        def beginYoink(self): #ετοιμάζει τη λίστα με το κείμενο που θα στείλουμε στα sql bois
+            self.currentBrowser.get(self.l1nk)
+            self.currentBrowser.minimize_window()
+            psopsontent = self.currentBrowser.page_source #να μην τα ξαναπώ, πασάρει στο bs4 το source
+            rangesoup = BeautifulSoup(psopsontent)
+            rangetext = str(rangesoup.get_text())
+            rangelist = [] #αυτό το θέλουμε για να πάρουμε το νούμερο που θα οριοθετήσει την κλεψά
+            l0ine = tuple(rangetext.split('\n')) #γραμμές του text.
+            for i in l0ine:
+                    if 'Φθίνουσα σειρά' in i and 'Descending order' not in i or 'Φθίνουσα σειρά' not in i and 'Descending order' in i:
+                        i = i.split(' ')
+                        rangelist.extend(i)       
+            maxrange =  int(rangelist[-1])
+            if type(maxrange/20) != int: rangeOp = maxrange//20 + 1
+            else: rangeOp = maxrange/20
+            masterlist = []
+            for i in range(rangeOp + 1):#ΚΑΠΟΥ ΣΤΟ HTML ΒΓΑΖΕΙ ERROR, ΒΡΕΙΤΕ ΤΙ ΦΤΑΙΕΙ ΚΑΙ ΦΤΙΑΞΤΕ ΤΟ ΠΛΣ ΘΕΛΩ ΝΑ ΑΥΤ
+                lynk = self.l1nk + '?offset={}'.format(20*(i))
+                if maxrange - 20*i >=20: powerRanger = 22 #Το powerRanger είναι στην ουσία ο αριθμός των στοιχείων που πρέπει να βουτήξουμε, το έκανα έτσι γιατί κουράστηκα να φτιάχνω σούπες,
+                else: powerRanger = maxrange - 20*i +2
+                masterlist.extend(self.yoinkbot(lynk, powerRanger))
+            return masterlist
+
+
+    class Datasaver():
+        def __init__(self):
+            self.conn = sqlite3.connect('postgraduatework8.db')
+            self.c = self.conn.cursor()
+            self.sqlmaker_ergasies = '''CREATE TABLE IF NOT EXISTS ergasies (
+        title text NOT NULL,
+        engtitle text NOT NULL,
+        authors text NOT NULL,
+        kwds text NOT NULL,
+        engkwds text NOT NULL,
+        abstracc text NOT NULL,
+        engabstracc text NOT NULL,
+        linksey text NOT NULL,
+        PRIMARY KEY(title,engtitle,authors,kwds,engkwds,abstracc,engabstracc,linksey)
+    );'''
+
+            self.sqlmaker_sxoles = '''CREATE TABLE IF NOT EXISTS sxoles (
+        sxolhname text NOT NULL PRIMARY KEY,
+        mainlink text NOT NULL
+    );'''
+
+            self.sqlmaker_ergsxolh = '''CREATE TABLE IF NOT EXISTS ergsxolh (
+        sxolhname NOT NULL,
+        title text NOT NULL,
+        linksey text NOT NULL,
+        FOREIGN KEY(sxolhname) REFERENCES sxoles(sxolhname),
+        FOREIGN KEY(title) REFERENCES ergasies(title) 
+        FOREIGN KEY(linksey) REFERENCES ergasies(linksey)   
+
+    );
+    '''     
+            self.sxoles = (('Αρχιτεκτόνων Μηχανικών','https://nemertes.library.upatras.gr/jspui/handle/10889/59'),('Μηχανικοί Περιβάλλοντος','https://nemertes.library.upatras.gr/jspui/handle/10889/6553'))
+            self.sqlremover = ''' DELETE FROM ergasies WHERE linksey=NULL;'''
+        def initiate_save(self):
+            self.c.execute(self.sqlmaker_ergasies)
+            self.c.execute(self.sqlmaker_sxoles)
+            self.c.execute(self.sqlmaker_ergsxolh)
+            self.c.execute(self.sqlremover)
+            for i in self.sxoles:
+                self.c.execute('''INSERT INTO sxoles VALUES (?,?);''',(i[0],i[1]))
+        # self.c.execute(self.selector)
+            self.Button1()
+            self.Button2()
+            self.Button3()
+            self.Button4()
+            self.Button5()
+            self.Button6()
+            self.Button7()
+
+            self.c.execute('''COMMIT''')
+            self.c.close()
+        def Button2(self):
+            if clicked.get() == "Chrome" :
+                self.rammer1 = str(MasterYoinker("Chrome", sxolh0).beginYoink())                
+            elif clicked.get() == "Edge" :
+                self.rammer2 = str(MasterYoinker("Edge", sxolh0).beginYoink())  
+            elif clicked.get() == "Opera" :    
+                self.rammer3 = str(MasterYoinker("Opera", sxolh0).beginYoink())
+            elif clicked.get() == "Mozilla" :
+                self.rammer4 = str(MasterYoinker("Mozilla", sxolh0).beginYoink())                
+            elif clicked.get() == "Safari" :
+                self.rammer5 = str(MasterYoinker("Safari", sxolh0).beginYoink())
+            for ergasia in self.rammer1 or self.rammer2 or self.rammer3 or self.rammer4 or self.rammer5 :
+                titlos = ''
+                transl8d_titlos = ''
+                syggrafeas = ''
+                keywordz = ''
+                eng_keywordz = ''
+                abstracc = ''
+                eng_abstracc = ''
+                elpis_xorterou_syndesmos = ''
+                metavlhtes = [titlos,transl8d_titlos,syggrafeas,keywordz,eng_keywordz,abstracc,eng_abstracc,elpis_xorterou_syndesmos]                
+                for stoixeio in ergasia.split('\t'):
+                    axrhsto_info = stoixeio.split('///')
+                    if axrhsto_info[0] == 'Τίτλος (Μετάφραση): ': transl8d_titlos = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Τίτλος: ':titlos = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Συγγραφέας: ': syggrafeas = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Λέξεις Κλειδιά: ': keywordz = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Λέξεις Κλειδιά (Μετάφραση): ': eng_keywordz = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Περίληψη: ': abstracc = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Περίληψη (Μετάφραση) : ': eng_abstracc = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Σύνδεσμος εργασίας:': elpis_xorterou_syndesmos = axrhsto_info[1]
+                    for var in metavlhtes:
+                        if not var: var = 'Το στοιχείο δε βρέθηκε'
+                try:
+                    self.c.execute('''INSERT INTO ergasies VALUES(?,?,?,?,?,?,?,?);''',(titlos,transl8d_titlos,syggrafeas,keywordz,eng_keywordz,abstracc,eng_abstracc,elpis_xorterou_syndesmos))
+                except sqlite3.IntegrityError : pass
+                for sxolh in self.sxoles:
+                    self.c.execute('''INSERT INTO ergsxolh VALUES(?,?);''',(sxolh[0],titlos)) 
+        def Button1(self):  
+            if clicked.get() == "Chrome" :
+                self.rammer1 = str(MasterYoinker("Chrome", sxolh1).beginYoink())               
+            elif clicked.get() == "Edge" :
+                self.rammer2 = str(MasterYoinker("Edge", sxolh1).beginYoink())               
+            elif clicked.get() == "Opera" :    
+                self.rammer3 = str(MasterYoinker("Opera", sxolh1).beginYoink())                
+            elif clicked.get() == "Mozilla" :
+                self.rammer4 = str(MasterYoinker("Mozilla", sxolh1).beginYoink())            
+            elif clicked.get() == "Safari" :
+                self.rammer5 = str(MasterYoinker("Safari", sxolh1).beginYoink())
+            for ergasia in self.rammer1 or self.rammer2 or self.rammer3 or self.rammer4 or self.rammer5 :
+                titlos = ''
+                transl8d_titlos = ''
+                syggrafeas = ''
+                keywordz = ''
+                eng_keywordz = ''
+                abstracc = ''
+                eng_abstracc = ''
+                elpis_xorterou_syndesmos = ''
+                metavlhtes = [titlos,transl8d_titlos,syggrafeas,keywordz,eng_keywordz,abstracc,eng_abstracc,elpis_xorterou_syndesmos]                
+                for stoixeio in ergasia.split('\t'):
+                    axrhsto_info = stoixeio.split('///')
+                    if axrhsto_info[0] == 'Τίτλος (Μετάφραση): ': transl8d_titlos = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Τίτλος: ':titlos = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Συγγραφέας: ': syggrafeas = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Λέξεις Κλειδιά: ': keywordz = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Λέξεις Κλειδιά (Μετάφραση): ': eng_keywordz = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Περίληψη: ': abstracc = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Περίληψη (Μετάφραση) : ': eng_abstracc = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Σύνδεσμος εργασίας:': elpis_xorterou_syndesmos = axrhsto_info[1]
+                    for var in metavlhtes:
+                        if not var: var = 'Το στοιχείο δε βρέθηκε'
+                try:
+                    self.c.execute('''INSERT INTO ergasies VALUES(?,?,?,?,?,?,?,?);''',(titlos,transl8d_titlos,syggrafeas,keywordz,eng_keywordz,abstracc,eng_abstracc,elpis_xorterou_syndesmos))
+                except sqlite3.IntegrityError : pass
+                for sxolh in self.sxoles:
+                    self.c.execute('''INSERT INTO ergsxolh VALUES(?,?);''',(sxolh[0],titlos))     
+        def Button3(self):
+            if clicked.get() == "Chrome" :
+                self.rammer1 = str(MasterYoinker("Chrome", sxolh3).beginYoink() )               
+            elif clicked.get() == "Edge" :
+                self.rammer2 = str(MasterYoinker("Edge", sxolh3).beginYoink())                
+            elif clicked.get() == "Opera" :    
+                self.rammer3 = str(MasterYoinker("Opera", sxolh3).beginYoink())               
+            elif clicked.get() == "Mozilla" :
+                self.rammer4 = str(MasterYoinker("Mozilla", sxolh3).beginYoink())                
+            elif clicked.get() == "Safari" :
+                self.rammer5 = str(MasterYoinker("Safari", sxolh3).beginYoink())
+            for ergasia in self.rammer1 or self.rammer2 or self.rammer3 or self.rammer4 or self.rammer5 :
+                titlos = ''
+                transl8d_titlos = ''
+                syggrafeas = ''
+                keywordz = ''
+                eng_keywordz = ''
+                abstracc = ''
+                eng_abstracc = ''
+                elpis_xorterou_syndesmos = ''
+                metavlhtes = [titlos,transl8d_titlos,syggrafeas,keywordz,eng_keywordz,abstracc,eng_abstracc,elpis_xorterou_syndesmos]                
+                for stoixeio in ergasia.split('\t'):
+                    axrhsto_info = stoixeio.split('///')
+                    if axrhsto_info[0] == 'Τίτλος (Μετάφραση): ': transl8d_titlos = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Τίτλος: ':titlos = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Συγγραφέας: ': syggrafeas = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Λέξεις Κλειδιά: ': keywordz = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Λέξεις Κλειδιά (Μετάφραση): ': eng_keywordz = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Περίληψη: ': abstracc = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Περίληψη (Μετάφραση) : ': eng_abstracc = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Σύνδεσμος εργασίας:': elpis_xorterou_syndesmos = axrhsto_info[1]
+                    for var in metavlhtes:
+                        if not var: var = 'Το στοιχείο δε βρέθηκε'
+                try:
+                    self.c.execute('''INSERT INTO ergasies VALUES(?,?,?,?,?,?,?,?);''',(titlos,transl8d_titlos,syggrafeas,keywordz,eng_keywordz,abstracc,eng_abstracc,elpis_xorterou_syndesmos))
+                except sqlite3.IntegrityError : pass
+                for sxolh in self.sxoles:
+                    self.c.execute('''INSERT INTO ergsxolh VALUES(?,?);''',(sxolh[0],titlos))   
+        def Button4(self):
+            if clicked.get() == "Chrome" :
+                self.rammer1 = str(MasterYoinker("Chrome", sxolh6).beginYoink())
+                
+            if clicked.get() == "Edge" :
+                self.rammer2 = str(MasterYoinker("Edge", sxolh6).beginYoink())
+                
+            if clicked.get() == "Opera" : 
+                self.rammer3 = str(MasterYoinker("Opera", sxolh6).beginYoink())
+                
+            if clicked.get() == "Mozilla" :
+                self.rammer4 = str(MasterYoinker("Mozilla", sxolh6).beginYoink())
+                
+            if clicked.get() == "Safari" :
+                self.rammer5 = str(MasterYoinker("Safari", sxolh6).beginYoink())
+            for ergasia in self.rammer1 or self.rammer2 or self.rammer3 or self.rammer4 or self.rammer5 :
+                titlos = ''
+                transl8d_titlos = ''
+                syggrafeas = ''
+                keywordz = ''
+                eng_keywordz = ''
+                abstracc = ''
+                eng_abstracc = ''
+                elpis_xorterou_syndesmos = ''
+                metavlhtes = [titlos,transl8d_titlos,syggrafeas,keywordz,eng_keywordz,abstracc,eng_abstracc,elpis_xorterou_syndesmos]                
+                for stoixeio in ergasia.split('\t'):
+                    axrhsto_info = stoixeio.split('///')
+                    if axrhsto_info[0] == 'Τίτλος (Μετάφραση): ': transl8d_titlos = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Τίτλος: ':titlos = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Συγγραφέας: ': syggrafeas = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Λέξεις Κλειδιά: ': keywordz = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Λέξεις Κλειδιά (Μετάφραση): ': eng_keywordz = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Περίληψη: ': abstracc = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Περίληψη (Μετάφραση) : ': eng_abstracc = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Σύνδεσμος εργασίας:': elpis_xorterou_syndesmos = axrhsto_info[1]
+                    for var in metavlhtes:
+                        if not var: var = 'Το στοιχείο δε βρέθηκε'
+                try:
+                    self.c.execute('''INSERT INTO ergasies VALUES(?,?,?,?,?,?,?,?);''',(titlos,transl8d_titlos,syggrafeas,keywordz,eng_keywordz,abstracc,eng_abstracc,elpis_xorterou_syndesmos))
+                except sqlite3.IntegrityError : pass
+                for sxolh in self.sxoles:
+                    self.c.execute('''INSERT INTO ergsxolh VALUES(?,?);''',(sxolh[0],titlos)) 
+        def Button5(self):
+            if clicked.get() == "Chrome" :
+                self.rammer1 = str(MasterYoinker("Chrome", sxolh4).beginYoink()) 
+            if clicked.get() == "Edge" :
+                self.rammer2 = str(MasterYoinker("Edge", sxolh4).beginYoink())
+            if clicked.get() == "Opera" :    
+                self.rammer3 = str(MasterYoinker("Opera", sxolh4).beginYoink())
+            if clicked.get() == "Mozilla" :
+                self.rammer4 = str(MasterYoinker("Mozilla", sxolh4).beginYoink())
+            if clicked.get() == "Safari" :
+                self.rammer5 = str(MasterYoinker("Safari", sxolh4).beginYoink())
+            for ergasia in self.rammer1 or self.rammer2 or self.rammer3 or self.rammer4 or self.rammer5 :
+                titlos = ''
+                transl8d_titlos = ''
+                syggrafeas = ''
+                keywordz = ''
+                eng_keywordz = ''
+                abstracc = ''
+                eng_abstracc = ''
+                elpis_xorterou_syndesmos = ''
+                metavlhtes = [titlos,transl8d_titlos,syggrafeas,keywordz,eng_keywordz,abstracc,eng_abstracc,elpis_xorterou_syndesmos]                
+                for stoixeio in ergasia.split('\t'):
+                    axrhsto_info = stoixeio.split('///')
+                    if axrhsto_info[0] == 'Τίτλος (Μετάφραση): ': transl8d_titlos = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Τίτλος: ':titlos = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Συγγραφέας: ': syggrafeas = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Λέξεις Κλειδιά: ': keywordz = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Λέξεις Κλειδιά (Μετάφραση): ': eng_keywordz = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Περίληψη: ': abstracc = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Περίληψη (Μετάφραση) : ': eng_abstracc = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Σύνδεσμος εργασίας:': elpis_xorterou_syndesmos = axrhsto_info[1]
+                    for var in metavlhtes:
+                        if not var: var = 'Το στοιχείο δε βρέθηκε'
+                try:
+                    self.c.execute('''INSERT INTO ergasies VALUES(?,?,?,?,?,?,?,?);''',(titlos,transl8d_titlos,syggrafeas,keywordz,eng_keywordz,abstracc,eng_abstracc,elpis_xorterou_syndesmos))
+                except sqlite3.IntegrityError : pass
+                for sxolh in self.sxoles:
+                    self.c.execute('''INSERT INTO ergsxolh VALUES(?,?);''',(sxolh[0],titlos)) 
+        def Button6(self):
+            if clicked.get() == "Chrome" :
+                self.rammer1 = str(MasterYoinker("Chrome", sxolh2).beginYoink() )
+            if clicked.get() == "Edge" :
+                self.rammer2 = str(MasterYoinker("Edge", sxolh2).beginYoink())
+            if clicked.get() == "Opera" :    
+                self.rammer3 = str(MasterYoinker("Opera", sxolh2).beginYoink())
+            if clicked.get() == "Mozilla" :
+                self.rammer4 = str(MasterYoinker("Mozilla", sxolh2).beginYoink())
+            if clicked.get() == "Safari" :
+                self.rammer5 = str(MasterYoinker("Safari", sxolh2).beginYoink())
+            for ergasia in self.rammer1 or self.rammer2 or self.rammer3 or self.rammer4 or self.rammer5 :
+                titlos = ''
+                transl8d_titlos = ''
+                syggrafeas = ''
+                keywordz = ''
+                eng_keywordz = ''
+                abstracc = ''
+                eng_abstracc = ''
+                elpis_xorterou_syndesmos = ''
+                metavlhtes = [titlos,transl8d_titlos,syggrafeas,keywordz,eng_keywordz,abstracc,eng_abstracc,elpis_xorterou_syndesmos]                
+                for stoixeio in ergasia.split('\t'):
+                    axrhsto_info = stoixeio.split('///')
+                    if axrhsto_info[0] == 'Τίτλος (Μετάφραση): ': transl8d_titlos = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Τίτλος: ':titlos = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Συγγραφέας: ': syggrafeas = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Λέξεις Κλειδιά: ': keywordz = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Λέξεις Κλειδιά (Μετάφραση): ': eng_keywordz = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Περίληψη: ': abstracc = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Περίληψη (Μετάφραση) : ': eng_abstracc = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Σύνδεσμος εργασίας:': elpis_xorterou_syndesmos = axrhsto_info[1]
+                    for var in metavlhtes:
+                        if not var: var = 'Το στοιχείο δε βρέθηκε'
+                try:
+                    self.c.execute('''INSERT INTO ergasies VALUES(?,?,?,?,?,?,?,?);''',(titlos,transl8d_titlos,syggrafeas,keywordz,eng_keywordz,abstracc,eng_abstracc,elpis_xorterou_syndesmos))
+                except sqlite3.IntegrityError : pass
+                for sxolh in self.sxoles:
+                    self.c.execute('''INSERT INTO ergsxolh VALUES(?,?);''',(sxolh[0],titlos)) 
+        def Button7(self):
+            if clicked.get() == "Chrome" :
+                self.rammer1 = str(MasterYoinker("Chrome", sxolh5).beginYoink()) 
+            if clicked.get() == "Edge" :
+                self.rammer2 = str(MasterYoinker("Edge", sxolh5).beginYoink())
+            if clicked.get() == "Opera" :    
+                self.rammer3 = str(MasterYoinker("Opera", sxolh5).beginYoink())
+            if clicked.get() == "Mozilla" :
+                self.rammer4 = str(MasterYoinker("Mozilla", sxolh5).beginYoink())
+            if clicked.get() == "Safari" :
+                self.rammer5 = str(MasterYoinker("Safari", sxolh5).beginYoink())
+            for ergasia in self.rammer1 or self.rammer2 or self.rammer3 or self.rammer4 or self.rammer5 :
+                titlos = ''
+                transl8d_titlos = ''
+                syggrafeas = ''
+                keywordz = ''
+                eng_keywordz = ''
+                abstracc = ''
+                eng_abstracc = ''
+                elpis_xorterou_syndesmos = ''
+                metavlhtes = [titlos,transl8d_titlos,syggrafeas,keywordz,eng_keywordz,abstracc,eng_abstracc,elpis_xorterou_syndesmos]                
+                for stoixeio in ergasia.split('\t'):
+                    axrhsto_info = stoixeio.split('///')
+                    if axrhsto_info[0] == 'Τίτλος (Μετάφραση): ': transl8d_titlos = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Τίτλος: ':titlos = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Συγγραφέας: ': syggrafeas = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Λέξεις Κλειδιά: ': keywordz = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Λέξεις Κλειδιά (Μετάφραση): ': eng_keywordz = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Περίληψη: ': abstracc = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Περίληψη (Μετάφραση) : ': eng_abstracc = axrhsto_info[1]
+                    if axrhsto_info[0] == 'Σύνδεσμος εργασίας:': elpis_xorterou_syndesmos = axrhsto_info[1]
+                    for var in metavlhtes:
+                        if not var: var = 'Το στοιχείο δε βρέθηκε'
+                try:
+                    self.c.execute('''INSERT INTO ergasies VALUES(?,?,?,?,?,?,?,?);''',(titlos,transl8d_titlos,syggrafeas,keywordz,eng_keywordz,abstracc,eng_abstracc,elpis_xorterou_syndesmos))
+                except sqlite3.IntegrityError : pass
+                for sxolh in self.sxoles:
+                    self.c.execute('''INSERT INTO ergsxolh VALUES(?,?);''',(sxolh[0],titlos))     
+             
+        def selector(self):
+            self.sqlselector = ''' SELECT title, linksey FROM ergsxolh WHERE sxolhname = {}'''
+            arxitektones = self.c.execute(self.sqlselector.format('Αρχιτεκτόνων Μηχανικών'))
+            mhxanikoi_perivallontos = self.c.execute(self.sqlselector.format('Μηχανικών Περιβάλλοντος'))
+            xhmikwn_mhxanikwn = self.c.execute(self.sqlselector.format('Χημικών Μηχανικών'))
+            ece = self.c.execute(self.sqlselector.format('Ηλεκτρολόγων Μηχανικών και Τεχνολογίας Υπολογιστών'))
+            politikoi_mhxanikoi = self.c.execute(self.sqlselector.format('Πολιτικών Μηχανικών'))
+            mech = self.c.execute(self.sqlselector.format('Μηχανολόγων και Αεροναυπηγών Μηχανικών'))
+            ceid = self.c.execute(self.sqlselector.format('Μηχανικών Ηλεκτρονικών Υπολογιστών και Πληροφορικής'))
+
+
+    l=tk.Label(root,text='Επιλέξτε πολυτεχνικό τμήμα',font=("",15)).pack(expand=1,pady=10)#,bg="#000000"
+    b1 = tk.Button(root,text='Τμήμα Μηχανικών Περιβάλλοντος ◕',font=('',13),command=lambda: [threading.Thread(target=Datasaver().Button1()).start(),threading.Thread(target=messagi()).start(),threading.Thread(target=gif).start()]).pack(expand=1,anchor="nw",pady=7)
+    b2 = tk.Button(root,text='Τμήμα Αρχιτεκτόνων Μηχανικών ◕',font=('',13),command=lambda: [threading.Thread(target=Datasaver().Button2()).start(),threading.Thread(target=messagi()).start(),threading.Thread(target=gif).start()]).pack(expand=1,anchor="nw",pady=7)
+    b3 = tk.Button(root,text='Τμήμα Ηλεκτρολόγων Μηχανικών και Τεχνολογίας Υπολογιστών ◕',font=('',13),command=lambda: [threading.Thread(target=Datasaver().Button3()).start(),threading.Thread(target=messagi()).start(),threading.Thread(target=gif).start()]).pack(expand=1,anchor="nw",pady=7)
+    b4 = tk.Button(root,text='Τμήμα Μηχανικών Ηλεκτρονικών Υπολογιστών και Πληροφορικής ◕',font=('',13),command=lambda: [threading.Thread(target=Datasaver().Button4()).start(),threading.Thread(target=messagi()).start(),threading.Thread(target=gif).start()]).pack(expand=1,anchor="nw",pady=7)
+    b5 = tk.Button(root,text='Τμήμα Πολιτικών Μηχανικών ◕',font=('',13),command=lambda: [threading.Thread(target=Datasaver().Button5()).start(),threading.Thread(target=messagi()).start(),threading.Thread(target=gif).start()]).pack(expand=1,anchor="nw",pady=7)
+    b6 = tk.Button(root,text='Τμήμα Χημικών Μηχανικών ◕',font=('',13),command=lambda: [threading.Thread(target=Datasaver().Button6()).start(),threading.Thread(target=messagi()).start(),threading.Thread(target=gif).start()]).pack(expand=1,anchor="nw",pady=7)
+    b7 = tk.Button(root,text='Τμήμα Μηχανολόγων και Αεροναυπηγών Μηχανικών ◕',font=('',13),command=lambda: [threading.Thread(target=Datasaver().Button7()).start(),threading.Thread(target=messagi()).start(),threading.Thread(target=gif).start()]).pack(expand=1,anchor="nw",pady=7)
+   
+    button_eksodos=tk.Button(root,text='-Έξοδος-',font=('',10),command=root.destroy).pack(expand=1,anchor="se")
+    root.mainloop()
+
+class Selector():
+    def __init__(self):
+        self.master =tk.Tk()
+        #master.config(bg="#000000")
+        self.master.title('team.33')
+        self.master.geometry("700x450")
+        self.master.iconbitmap("C:\Program Files (x86)\icon.ico")
+
+        self.s1=IntVar()
+        self.s2=IntVar()
+        self.s3=IntVar()
+        self.s4=IntVar()
+        self.s5=IntVar()
+        self.s6=IntVar()
+        self.s7=IntVar()
+
+        # checkbuttons
+
+        lbl1 = tk.Label(self.master, text='Επιλέξτε τα πολυτεχνικά τμήματα που σας ενδιαφέρουν',font=("",15)).pack(pady=20)
+        c1 = tk.Checkbutton(self.master,text="Τμήμα Μηχανικών Περιβάλλοντος",font=('',13),variable=self.s1,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
+        c2 = tk.Checkbutton(self.master,text="Τμήμα Αρχιτεκτόνων Μηχανικών",font=('',13),variable=self.s2,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
+        c3 = tk.Checkbutton(self.master,text="Τμήμα Ηλεκτρολόγων Μηχανικών και Τεχνολογίας Υπολογιστών",font=('',13),variable=self.s3,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
+        c4 = tk.Checkbutton(self.master,text="Τμήμα Μηχανικών Ηλεκτρονικών Υπολογιστών και Πληροφορικής",font=('',13),variable=self.s4,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
+        c5 = tk.Checkbutton(self.master,text="Τμήμα Πολιτικών Μηχανικών",font=('',13),variable=self.s5,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
+        c6 = tk.Checkbutton(self.master,text="Τμήμα Χημικών Μηχανικών",font=('',13),variable=self.s6,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
+        c7 = tk.Checkbutton(self.master,text="Τμήμα Μηχανολόγων και Αεροναυπηγών Μηχανικών",font=('',13),variable=self.s7,onvalue=1,offvalue=0).pack(expand=1,anchor="nw")
+        b1 = tk.Button(self.master,text="< Υποβολή >",font=("",10),command=self.w3).pack(expand=1)
+
+        self.master.mainloop()
+    
+def begin():
+    root = tk.Tk()
+    root.title("team.33")
+    root.geometry("400x270")
+    # root.config(bg="#000000")
+    root.iconbitmap("C:\Program Files (x86)\icon.ico")
+    enimerwsi=ttk.Button(root,text="Λήψη εργασιών",command=suma).pack(pady=20)
+    img_for_scrape = tk.PhotoImage(file="C:\Program Files (x86)\web-sc.png")
+    label1= tk.Label(root,image=img_for_scrape).pack()#,bg="#000000"
+    button_start=ttk.Button(root,text="Κλικ για να ξεκινήσετε",command=Selector).pack(pady=20)
+    root.mainloop()
+begin()
+
+
+
+
+
+
+
+
